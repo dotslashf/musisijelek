@@ -9,7 +9,9 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "firebase-admin": "^9.9.0",
-    "spotify-web-api-node": "^5.0.2"
+    "oauth": "^0.9.15",
+    "spotify-web-api-node": "^5.0.2",
+    "twitter-lite": "^1.1.0"
   },
   "scripts": {
     "dev": "nodemon app.js"

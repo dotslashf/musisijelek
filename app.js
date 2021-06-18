@@ -42,7 +42,6 @@ app.get('/callbackSpotify', async (req, res) => {
       access_token,
       refresh_token,
     });
-    
   } catch (e) {
     console.log(e);
   }
@@ -72,6 +71,17 @@ app.get('/getArtist', async (req, res) => {
         alphabet,
       },
     });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+app.get('/sessions/callback', (req, res) => {
+  try {
+    res.status(200).send({
+      msg: 'A',
+    });
+    console.log(res);
   } catch (e) {
     console.log(e);
   }
