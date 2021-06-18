@@ -38,6 +38,19 @@ const getSpotifyToken = async () => {
   }
 };
 
+const isCharEqualFirstArtistChar = (char, artists) => {
+  let artistIndex = [Math.floor(Math.random() * artists.length)];
+  let name = artists[artistIndex];
+
+  if (char === name.charAt(0).toUpperCase()) {
+    console.log('Selected:', name, char, artistIndex);
+    return name;
+  }
+
+  console.log('Rerun:', name, char, artistIndex);
+  return isCharEqualFirstArtistChar(char, artists);
+};
+
 const getArtist = async () => {
   const char = randomAlphabet().toUpperCase();
   accessToken = await getSpotifyToken();
@@ -50,20 +63,26 @@ const getArtist = async () => {
     q: char,
     type: 'artist',
     market: 'ID',
-    limit: 20,
+    limit: 50,
   };
   try {
     const response = await axios.get(
       `https://api.spotify.com/v1/search?${qs.stringify(body)}`,
       { headers }
     );
-    const artists = response.data.artists.items;
-    const { name } = artists[Math.floor(Math.random() * artists.length)];
-    console.log(name, 'bangsat');
-    return name;
+    const artists = response.data.artists.items.map(artist => artist.name);
+    const artist = isCharEqualFirstArtistChar(char, artists);
+
+    return {
+      artist,
+      char,
+    };
   } catch (e) {
     console.log(e);
   }
 };
 
-getArtist();
+(async () => {
+  const { artist } = await getArtist();
+  console.log(artist, 'bangsat');
+})();
