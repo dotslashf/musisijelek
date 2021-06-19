@@ -1,4 +1,5 @@
 const cliProgress = require('cli-progress');
+const colors = require('colors');
 
 const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms));
