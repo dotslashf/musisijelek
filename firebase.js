@@ -1,30 +1,36 @@
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
-const { getArtist } = require('./spotifyWrapper');
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const db = admin.firestore();
 
-const saveArtist = async (char, name) => {
-  const doc = db.collection('listAlphabet').doc(char);
-  await doc.set({
-    name: admin.firestore.FieldValue.arrayUnion(name),
-  });
-};
-
-const checkArtist = async (char, artist) => {
+const isArtistExist = async (char, artist) => {
   const alphabetRef = db.collection('listAlphabet').doc(char);
   const doc = await alphabetRef.get();
-  const { name } = doc.data();
-  if (!name.includes(char)) {
-    await saveArtist(char, artist);
-  } else {
 
+  if (doc.exists) {
+    const charRef = db.collection('listAlphabet').doc(char);
+    const doc = await charRef.get();
+    const { name } = doc.data();
+    if (name.includes(artist)) {
+      console.log('Udah ada');
+      return false;
+    } else {
+      await charRef.update({
+        name: admin.firestore.FieldValue.arrayUnion(artist),
+      });
+      console.log('Saved:', artist);
+      return true;
+    }
+  } else {
+    const charRef = db.collection('listAlphabet').doc(char);
+    await charRef.set({
+      name: [artist],
+    });
+    return true;
   }
 };
 
-(async () => {
-  const obj = await getArtist();
-  // console.log(obj);
-  // await checkArtist(obj.char, obj.artist);
-})();
+module.exports = {
+  isArtistExist,
+};

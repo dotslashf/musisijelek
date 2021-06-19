@@ -1,13 +1,8 @@
 const axios = require('axios').default;
 const qs = require('querystring');
 const blockList = require('./blockList');
+const { randomAlphabet } = require('./utils/randomizer');
 require('dotenv').config();
-
-const randomAlphabet = () => {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-  const char = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-  return char;
-};
 
 const getSpotifyToken = async () => {
   const clientId = process.env.SPOTIFY_CLIENT_KEY;
@@ -48,7 +43,6 @@ const isMetCriteria = (char, artists) => {
 
     for (let index = 0; index < blockList.list.length; index++) {
       const element = blockList.list[index];
-      console.log('Name:', name, '| Element:', element);
       if (element === name) {
         console.log('Blocked');
         return isMetCriteria(char, artists);
