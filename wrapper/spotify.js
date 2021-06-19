@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 const qs = require('querystring');
-const blockList = require('./blockList');
-const { randomAlphabet } = require('./utils/randomizer');
+const blockList = require('../blockList');
+const { randomAlphabet } = require('../utils/randomizer');
 require('dotenv').config();
 
 const getSpotifyToken = async () => {
@@ -39,7 +39,7 @@ const isMetCriteria = (char, artists) => {
   let name = artists[artistIndex];
 
   if (char === name.charAt(0).toUpperCase()) {
-    console.log('Selected:', name, char, artistIndex);
+    console.log('Selected:', name);
 
     for (let index = 0; index < blockList.list.length; index++) {
       const element = blockList.list[index];
@@ -52,7 +52,6 @@ const isMetCriteria = (char, artists) => {
     return name;
   }
 
-  console.log('Rerun:', name, char, artistIndex);
   return isMetCriteria(char, artists);
 };
 
