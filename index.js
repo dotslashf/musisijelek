@@ -6,7 +6,7 @@ const { postTweet } = require('./wrapper/twitter');
 
 (async () => {
   while (true) {
-    const nTimeWait = randomNumber(15, 30);
+    const nTimeWait = randomNumber(60, 120);
 
     await loadingBar(nTimeWait);
 
