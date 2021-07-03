@@ -19,7 +19,7 @@ const { postTweet } = require('./wrapper/twitter');
       await postTweet(`${obj.name} jelek`, media);
       console.log('Tweeted', obj.artist, 'jelek');
     } else {
-      console.log('Duplicate Artist', obj.artist);
+      console.log('Duplicate Artist', obj.name);
     }
   }
 })();
