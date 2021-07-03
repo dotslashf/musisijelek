@@ -20,7 +20,7 @@ const loadingBar = async nTime => {
 
   bar.start(nTime, 0);
   for (let i = 0; i < nTime; i++) {
-    bar.update(i + 1);
+    bar.update(i);
     await sleep(1000 * 60);
   }
   bar.stop();

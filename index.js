@@ -1,8 +1,8 @@
 const { randomNumber } = require('./utils/randomizer');
 const { isArtistExist } = require('./wrapper/firebase');
 const { getArtist } = require('./wrapper/spotify');
-const { loadingBar } = require('./utils/helpers');
-const { postTweet } = require('./wrapper/twitter');
+const { downloadImage, joinImage, loadingBar } = require('./utils/helpers');
+const { postTweet, uploadImageToTwitter } = require('./wrapper/twitter');
 
 (async () => {
   while (true) {
@@ -17,7 +17,7 @@ const { postTweet } = require('./wrapper/twitter');
       await joinImage(obj.defaultImage);
       const media = await uploadImageToTwitter();
       await postTweet(`${obj.name} jelek`, media);
-      console.log('Tweeted', obj.artist, 'jelek');
+      console.log('Tweeted', obj.name, 'jelek');
     } else {
       console.log('Duplicate Artist', obj.name);
     }
