@@ -34,9 +34,10 @@ const getSpotifyToken = async () => {
   }
 };
 
-const isMetCriteria = (char, artists) => {
+const isMetCriteria = (char, artists, images) => {
   let artistIndex = [Math.floor(Math.random() * artists.length)];
   let name = artists[artistIndex];
+  let image = images[artistIndex];
 
   if (char === name.charAt(0).toUpperCase()) {
     console.log('Selected:', name);
@@ -46,14 +47,14 @@ const isMetCriteria = (char, artists) => {
       const _name = name.toLowerCase();
       if (_name.includes(element.toLowerCase())) {
         console.log('Blocked');
-        return isMetCriteria(char, artists);
+        return isMetCriteria(char, artists, images);
       }
     }
 
-    return name;
+    return { name, image };
   }
 
-  return isMetCriteria(char, artists);
+  return isMetCriteria(char, artists, images);
 };
 
 const getArtist = async () => {
@@ -76,12 +77,24 @@ const getArtist = async () => {
       { headers }
     );
     const artists = response.data.artists.items.map(artist => artist.name);
-    const artist = isMetCriteria(char, artists);
+    const images = response.data.artists.items.map(artist => artist.images);
+    const { name, image } = isMetCriteria(char, artists, images);
 
-    return {
-      artist,
-      char,
-    };
+    if (image[0].url) {
+      return {
+        name,
+        char,
+        imageUrl: image[0].url,
+        defaultImage: false,
+      };
+    } else {
+      return {
+        name,
+        char,
+        imageUrl: '',
+        defaultImage: true,
+      };
+    }
   } catch (e) {
     console.log(e);
   }

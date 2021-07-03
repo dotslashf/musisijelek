@@ -119,3 +119,6 @@ dist
 
 serviceAccountKey.json
 test.js
+/media/*
+!/media/stamp.png
+!/media/no_image.png
