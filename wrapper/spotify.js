@@ -43,7 +43,8 @@ const isMetCriteria = (char, artists) => {
 
     for (let index = 0; index < blockList.list.length; index++) {
       const element = blockList.list[index];
-      if (element === name) {
+      const _name = name.toLowerCase();
+      if (_name.includes(element.toLowerCase())) {
         console.log('Blocked');
         return isMetCriteria(char, artists);
       }

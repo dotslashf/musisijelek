@@ -13,8 +13,8 @@ const { postTweet } = require('./wrapper/twitter');
     const obj = await getArtist();
     const artistExist = await isArtistExist(obj.char, obj.artist);
     if (artistExist) {
-      await postTweet(`${obj.artist} bangsat`);
-      console.log('Tweeted', obj.artist, 'bangsat');
+      await postTweet(`${obj.artist} jelek`);
+      console.log('Tweeted', obj.artist, 'jelek');
     } else {
       console.log('Duplicate Artist', obj.artist);
     }
