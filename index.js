@@ -13,11 +13,14 @@ const { postTweet, uploadImageToTwitter } = require('./wrapper/twitter');
     const obj = await getArtist();
     const artistExist = await isArtistExist(obj.char, obj.name);
     if (artistExist) {
-      await downloadImage(obj.imageUrl);
-      await joinImage(obj.defaultImage);
-      const media = await uploadImageToTwitter();
-      await postTweet(`${obj.name} jelek`, media);
-      console.log('Tweeted', obj.name, 'jelek');
+      try {
+        await joinImage(obj.defaultImage, obj.imageUrl);
+        const media = await uploadImageToTwitter();
+        await postTweet(`${obj.name} jelek`, media);
+        console.log('Tweeted', obj.name, 'jelek');
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       console.log('Duplicate Artist', obj.name);
     }

@@ -80,14 +80,16 @@ const getArtist = async () => {
     const images = response.data.artists.items.map(artist => artist.images);
     const { name, image } = isMetCriteria(char, artists, images);
 
-    if (image[0].url) {
+    if (image[0]) {
+      console.log('Artist Image Existed');
       return {
         name,
         char,
         imageUrl: image[0].url,
         defaultImage: false,
       };
-    } else {
+    } else if (image[0] === undefined) {
+      console.log('Default Image');
       return {
         name,
         char,

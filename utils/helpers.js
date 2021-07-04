@@ -27,12 +27,16 @@ const loadingBar = async nTime => {
 };
 
 const downloadImage = async url => {
-  const response = await fetch(url);
-  const buffer = await response.buffer();
-  await fs.writeFile(`./media/artist.png`, buffer);
+  try {
+    const response = await fetch(url);
+    const buffer = await response.buffer();
+    return buffer;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-const joinImage = async defaultImage => {
+const joinImage = async (defaultImage, imageUrl) => {
   const mediaSrc = './media';
   if (defaultImage) {
     let _buffer = await sharp(`${mediaSrc}/no_image.png`)
@@ -43,7 +47,8 @@ const joinImage = async defaultImage => {
       .toBuffer();
     await fs.writeFile(`${mediaSrc}/final.png`, _buffer);
   } else {
-    let _buffer = await sharp(`${mediaSrc}/artist.png`)
+    const buffer = await downloadImage(imageUrl);
+    let _buffer = await sharp(buffer)
       .resize(640, 640)
       .composite([{ input: `${mediaSrc}/stamp.png` }])
       .sharpen()
