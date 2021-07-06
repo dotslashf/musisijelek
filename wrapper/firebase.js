@@ -1,7 +1,13 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../serviceAccountKey.json');
+// const serviceAccount = require('../serviceAccountKey.json');
 
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+admin.initializeApp({
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  }),
+});
 const db = admin.firestore();
 
 const isArtistExist = async (char, artist) => {
