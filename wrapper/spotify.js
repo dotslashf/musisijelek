@@ -102,6 +102,59 @@ const getArtist = async () => {
   }
 };
 
+const searchArtist = async search => {
+  accessToken = await getSpotifyToken();
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${accessToken}`,
+  };
+  const body = {
+    q: search,
+    type: 'artist',
+    market: 'ID',
+    limit: 50,
+  };
+  try {
+    const response = await axios.get(
+      `https://api.spotify.com/v1/search?${qs.stringify(body)}`,
+      { headers }
+    );
+    const artists = response.data.artists.items.map(artist => {
+      return {
+        name: artist.name,
+        image: artist.images,
+      };
+    });
+
+    if (artists[0].name.toLowerCase() === search.toLowerCase()) {
+      const artist = artists[0];
+      if (artist.image[0]) {
+        console.log('Artist Image Existed');
+        return {
+          name: artist.name,
+          imageUrl: artist.image[0].url,
+          defaultImage: false,
+        };
+      } else if (image[0] === undefined) {
+        console.log('Default Image');
+        return {
+          name: artist.name,
+          imageUrl: '',
+          defaultImage: true,
+        };
+      }
+    } else {
+      return {
+        msg: 'No artist found',
+      };
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 module.exports = {
   getArtist,
+  searchArtist,
 };
