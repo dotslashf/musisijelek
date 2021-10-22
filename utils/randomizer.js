@@ -1,5 +1,5 @@
 const randomAlphabet = () => {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const alphabet = '.abcdefghijklmnopqrstuvwxyz';
   return alphabet.charAt(Math.floor(Math.random() * alphabet.length));
 };
 
