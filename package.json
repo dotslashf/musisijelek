@@ -12,7 +12,8 @@
     "oauth": "^0.9.15",
     "sharp": "^0.28.3",
     "spotify-web-api-node": "^5.0.2",
-    "twit": "^2.2.11"
+    "twit": "^2.2.11",
+    "twitter-lite": "^1.1.0"
   },
   "scripts": {
     "dev": "nodemon app.js",
